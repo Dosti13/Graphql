@@ -1,0 +1,26 @@
+{
+  "name": "graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/index.js",
+    "dev": "tsc-watch --onSuccess \"npm start\""
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "@prisma/client": "^6.5.0",
+    "express": "^4.21.2",
+    "graphql": "^16.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.11",
+    "prisma": "^6.5.0",
+    "tsc-watch": "^6.2.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

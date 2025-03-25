@@ -1,0 +1,16 @@
+services: 
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: dosti
+      POSTGRES_PASSWORD: pageup
+      POSTGRES_DB: thread
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:  # Ensure this volume is explicitly defined
+    driver: local
