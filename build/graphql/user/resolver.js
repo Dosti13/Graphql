@@ -8,12 +8,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolver = void 0;
-const queries = {};
+const user_1 = __importDefault(require("../../services/user"));
+const queries = {
+    getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const token = yield user_1.default.getUserToken({
+            email: payload.email,
+            password: payload.password,
+        });
+        return token;
+    }),
+    getCurrentLoggedInUser: (_, parameters, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const user = yield user_1.default.getUserById(id);
+            return user;
+        }
+        throw new Error("I dont know who are you");
+    }),
+};
 const mutations = {
-    createUser: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, {}) {
-        return "random ";
+    createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield user_1.default.createUser(payload);
+        return res.id;
     })
 };
 exports.resolver = { queries, mutations };

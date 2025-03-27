@@ -15,8 +15,9 @@ function creategraphqlserver() {
     return __awaiter(this, void 0, void 0, function* () {
         const graphserver = new server_1.ApolloServer({
             typeDefs: `
+             ${user_1.User.typeDefs}
             type Query {
-                hello:String 
+            ${user_1.User.queries}
             }
             type Mutation{
               ${user_1.User.mutations} 

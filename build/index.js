@@ -16,12 +16,23 @@ const express_1 = __importDefault(require("express"));
 const express4_1 = require("@apollo/server/express4");
 // Import the types explicitly
 const graphql_1 = __importDefault(require("./graphql"));
-const PORT = 5000;
+const user_1 = __importDefault(require("./services/user"));
+const PORT = 4000;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
     const gqlserver = yield (0, graphql_1.default)();
     const apolloMiddleware = (0, express4_1.expressMiddleware)(gqlserver, {
-        context: (_a) => __awaiter(void 0, [_a], void 0, function* ({ req }) { return ({ req }); })
+        context: (_a) => __awaiter(void 0, [_a], void 0, function* ({ req }) {
+            // @ts-ignore
+            const token = req.headers["token"];
+            try {
+                const user = user_1.default.decodeJWTToken(token);
+                return { user };
+            }
+            catch (error) {
+                return {};
+            }
+        }),
     });
     // Use a workaround to fix the type conflict
     app.use(express_1.default.json());

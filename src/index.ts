@@ -1,10 +1,10 @@
 import express from "express" 
 import { expressMiddleware } from "@apollo/server/express4"
 // Import the types explicitly
-
 import creategraphqlserver from "./graphql"
+import UserService from "./services/user"
 
-const PORT = 5000
+const PORT = 4000
 
 const main = async () => {
     const app = express()
@@ -12,7 +12,18 @@ const main = async () => {
     const gqlserver = await creategraphqlserver()
   
     const apolloMiddleware = expressMiddleware(gqlserver, {
-        context: async ({ req }) => ({ req })
+        context: async ({ req }) => {
+            // @ts-ignore
+            
+            const token = req.headers["token"];
+    
+            try {
+              const user = UserService.decodeJWTToken(token as string);
+              return { user };
+            } catch (error) {
+              return {};
+            }
+          },
     });
     
     // Use a workaround to fix the type conflict
